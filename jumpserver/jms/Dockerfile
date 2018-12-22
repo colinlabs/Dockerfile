@@ -4,9 +4,11 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/' /etc/apk/repositories 
 ARG VERSION=master
 
 RUN set -xe \
- && apk add --no-cache tiff-dev jpeg-dev zlib-dev freetype-dev lcms-dev libwebp-dev tcl-dev tk-dev \
+ && apk add --no-cache tzdata \
+        tiff-dev jpeg-dev zlib-dev freetype-dev lcms-dev libwebp-dev tcl-dev tk-dev \
         python3-dev libressl-dev openldap-dev cyrus-sasl-dev krb5-dev sshpass postgresql-dev \
-        mariadb-dev sqlite-dev libffi-dev openssh-client
+        mariadb-dev sqlite-dev libffi-dev openssh-client \
+ && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 WORKDIR /app/jumpserver
 

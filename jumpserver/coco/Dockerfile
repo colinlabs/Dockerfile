@@ -6,7 +6,8 @@ ARG VERSION=master
 WORKDIR /app/coco
 
 RUN set -xe \
- && apk add --no-cache krb5-dev sshpass libffi-dev libressl-dev linux-headers
+ && apk add --no-cache tzdata krb5-dev sshpass libffi-dev libressl-dev linux-headers
+ && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 ADD requirements.txt .
 

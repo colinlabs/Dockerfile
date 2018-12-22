@@ -6,7 +6,7 @@ services:
     restart: always
     volumes: 
     - ./nginx.conf:/etc/nginx/nginx.conf
-    - ./data/jumpserver/static:/app/jumpserver/static
+    - ./data/jumpserver:/app/jumpserver
     - ./data/luna:/app/luna
     ports:
     - 80:80
