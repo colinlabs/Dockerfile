@@ -16,7 +16,7 @@ services:
       context: jms
       args: 
         VERSION: master
-    image: jumpserver
+    image: jms-jumpserver
     container_name: jms-jumpserver
     hostname: jms-jumpserver
     restart: always
