@@ -1,0 +1,69 @@
+version: '2'
+services:
+  jms-nginx:
+    image: nginx:1.13-alpine
+    container_name: jms-nginx
+    restart: always
+    volumes: 
+    - ./nginx.conf:/etc/nginx/nginx.conf
+    - ./data/jumpserver/static:/app/jumpserver/static
+    - ./data/luna:/app/luna
+    ports:
+    - 80:80
+
+  jms-jumpserver:
+    build:
+      context: jms
+      args: 
+        VERSION: master
+    image: jumpserver
+    container_name: jms-jumpserver
+    hostname: jms-jumpserver
+    restart: always
+    environment:
+    - DEBUG=False
+    - LOG_LEVEL=INFO
+    - BOOTSTRAP_TOKEN=token-jms
+    - DB_ENGINE=mysql
+    - DB_PORT=3306
+    - DB_HOST=mysql
+    - DB_NAME=jumpserver
+    - DB_USER=jms
+    - DB_PASSWORD=password
+    - REDIS_HOST=redis
+    volumes:
+    - ./data/jumpserver:/app/jumpserver/data
+
+  jms-coco:
+    build:
+      context: coco
+      args: 
+        VERSION: master
+    image: jms-coco
+    container_name: jms-coco
+    restart: always
+    environment:
+    - NAME=coco
+    - LOG_LEVEL=INFO
+    - CORE_HOST=http://jms-jumpserver:8080
+    - BOOTSTRAP_TOKEN=token-jms
+    volumes: 
+    - ./data/coco:/app/coco/keys
+    ports:
+    - 2222:2222
+
+  jms-luna:
+    build:
+      context: luna
+      args: 
+        VERSION: 1.4.6
+    image: jms-luna
+    container_name: jms-luna
+    tty: true
+    volumes: 
+    - ./data/luna:/app/luna
+
+networks:
+  default:
+    external:
+      name: core
