@@ -40,7 +40,7 @@ six==1.11.0
 tornado==4.5.2
 urllib3==1.22
 wcwidth==0.1.7
-eventlet==0.24.1
+eventlet==0.31.0
 Werkzeug==0.14.1
 treelib==1.5.3     
 
